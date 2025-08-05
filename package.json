@@ -1,0 +1,32 @@
+{
+  "name": "projetotrainee-grupo3",
+  "version": "1.0.0",
+  "type": "module",          
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./inde.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daiana-eng/ProjetoTrainee-Grupo3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daiana-eng/ProjetoTrainee-Grupo3/issues"
+  },
+  "homepage": "https://github.com/daiana-eng/ProjetoTrainee-Grupo3#readme",
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "prisma": "^6.13.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.13.0",
+    "node": "^22.18.0"
+  }
+}

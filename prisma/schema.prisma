@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  email        String
+  password     String
+  name         String
+  photo        String?
+  premium_id   Int?  
+  premium      Premium?      @relation(fields: [premium_id], references: [id])
+  userMusics   UserMusic[]   @relation("UserToMusic")
+
+  @@id([email, password])
+}
+
+model Music {
+  id            Int           @id @default(autoincrement())
+  name          String
+  artistic_genre String?
+  album         String?
+  artist_id     Int
+  artist        Artist        @relation(fields: [artist_id], references: [id])
+  userMusics    UserMusic[]   @relation("UserToMusic")
+}
+
+model Artist {
+  id                Int      @id @default(autoincrement())
+  name              String
+  number_of_streams Int
+  photo             String?
+  shows             String?
+  musics            Music[]
+}
+
+model Premium {
+  id               Int      @id @default(autoincrement())
+  name             String
+  promotions_shows String?
+  users            User[]
+}
+
+/// tabela de ligação N-M entre User e Music
+model UserMusic {
+  user_email    String
+  user_password String
+  music_id      Int
+
+  user  User  @relation("UserToMusic", fields: [user_email, user_password], references: [email, password])
+  music Music @relation("UserToMusic", fields: [music_id], references: [id])
+
+  @@id([user_email, user_password, music_id])
+}
