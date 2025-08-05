@@ -1,15 +1,39 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../../../config/prismaClient";
-
-type PremiumCreateInput = Prisma.PremiumCreateInput;
+import { Premium } from '@prisma/client';
+import prisma from '../../../../config/prismaClient.js';
 
 class PremiumService {
-  async create(data: PremiumCreateInput) {
-    return await prisma.premium.create({
+  async create(body: Premium) {
+    await prisma.premium.create({
       data: {
-        name: data.name,
-        promotions_shows: data.promotions_shows
+        name: body.name,
+        promotions_shows: body.promotions_shows ?? null
       }
+    });
+  }
+
+  async getAll() {
+    return await prisma.premium.findMany({
+      include: { users: true },
+    });
+  }
+
+  async getById(id: number) {
+    return await prisma.premium.findUnique({
+      where: { id },
+      include: { users: true },
+    });
+  }
+
+  async update(id: number, data: Partial<Premium>) {
+    return await prisma.premium.update({
+      where: { id },
+      data
+    });
+  }
+
+  async delete(id: number) {
+    return await prisma.premium.delete({
+      where: { id }
     });
   }
 }

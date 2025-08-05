@@ -1,44 +1,37 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    // "rootDir": "./src",
-    // "outDir": "./dist",
-
+    "rootDir": ".", // Include both src/ and config/ at project root
+    "outDir": "./dist", // Output compiled .js files to dist/
+    
     // Environment Settings
-    // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
-    "types": [],
-    // For nodejs:
-    // "lib": ["esnext"],
-    // "types": ["node"],
-    // and npm install -D @types/node
-
+    "module": "nodenext", // For Node.js ES Modules
+    "moduleResolution": "nodenext", // Required for nodenext
+    "target": "es2020", // Compatible with modern Node.js
+    "lib": ["es2020"], // Include ES2020 features
+    "types": ["node"], // Include Node.js types
+    
     // Other Outputs
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-
+    "sourceMap": true, // Generate source maps for debugging
+    "declaration": true, // Generate .d.ts files
+    "declarationMap": true, // Generate .d.ts.map files
+    
     // Stricter Typechecking Options
+    "strict": true, // Enable all strict checks
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-
-    // Style Options
-    // "noImplicitReturns": true,
-    // "noImplicitOverride": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noPropertyAccessFromIndexSignature": true,
-
+    
     // Recommended Options
-    "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "jsx": "react-jsx", // Keep if using React, remove if not needed
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+    
+    // Ensure compilation
+    "noEmit": false // Generate .js files
+  },
+  "include": ["src/**/*", "config/**/*", "testUser.ts", "index.ts"], // Include src/, config/, and testUser.ts
+  "exclude": ["node_modules", "dist"] // Exclude node_modules and dist/
 }

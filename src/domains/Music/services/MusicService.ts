@@ -1,19 +1,41 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../../../config/prismaClient";
-
-type MusicCreateInput = Prisma.MusicCreateInput;
+import { Music } from '@prisma/client';
+import prisma from '../../../../config/prismaClient.js';
 
 class MusicService {
-  async create(data: MusicCreateInput) {
-    return await prisma.music.create({
+  async create(body: Music) {
+    await prisma.music.create({
       data: {
-        name: data.name,
-        artistic_genre: data.artistic_genre,
-        album: data.album,
-        artist: {
-          connect: { id: data.artist_id }
-        }
+        name: body.name,
+        artistic_genre: body.artistic_genre ?? null,
+        album: body.album ?? null,
+        artist_id: body.artist_id
       }
+    });
+  }
+
+  async getAll() {
+    return await prisma.music.findMany({
+      include: { artist: true, userMusics: true },
+    });
+  }
+
+  async getById(id: number) {
+    return await prisma.music.findUnique({
+      where: { id },
+      include: { artist: true, userMusics: true },
+    });
+  }
+
+  async update(id: number, data: Partial<Music>) {
+    return await prisma.music.update({
+      where: { id },
+      data
+    });
+  }
+
+  async delete(id: number) {
+    return await prisma.music.delete({
+      where: { id }
     });
   }
 }
