@@ -10,15 +10,13 @@ datasource db {
 }
 
 model User {
-  email        String @unique
+  email        String @id
   password     String
   name         String
   photo        String?
   premium_id   Int?  
   premium      Premium?      @relation(fields: [premium_id], references: [id])
   userMusics   UserMusic[]   @relation("UserToMusic")
-
-  @@id([email, password])
 }
 
 model Music {
@@ -50,11 +48,10 @@ model Premium {
 /// tabela de ligação N-M entre User e Music
 model UserMusic {
   user_email    String
-  user_password String
   music_id      Int
 
-  user  User  @relation("UserToMusic", fields: [user_email, user_password], references: [email, password])
+  user  User  @relation("UserToMusic", fields: [user_email], references: [email])
   music Music @relation("UserToMusic", fields: [music_id], references: [id])
 
-  @@id([user_email, user_password, music_id])
+  @@id([user_email, music_id])
 }

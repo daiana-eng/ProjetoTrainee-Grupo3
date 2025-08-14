@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import prisma from '../../../../config/prismaClient.js';
+import prisma from '../../../../config/prismaClient';
 
 class UserService {
   async create(body: User) {
@@ -25,12 +25,10 @@ async getAll() {
   }
 
   // READ - buscar por chave composta (email + password)
-  async getById(email: string, password: string) {
+  async getByEmail(email: string) {
     return await prisma.user.findUnique({
-      where: {
-        email_password: { email, password }
-      },
-      include: {
+      where: { email },
+      include: { 
         premium: true,
         userMusics: true,
       },
@@ -46,7 +44,7 @@ async getAll() {
     if (data.newPassword !== undefined) updateData.password = data.newPassword;
 
     return await prisma.user.update({
-      where: { email_password: { email, password } },
+      where: { email } ,
       data: updateData
     });
   }
@@ -54,7 +52,7 @@ async getAll() {
   // DELETE
  async delete(email: string, password: string){
     return await prisma.user.delete({
-      where: {email_password: {email, password}}
+      where: {email}
     });
   }
 }
