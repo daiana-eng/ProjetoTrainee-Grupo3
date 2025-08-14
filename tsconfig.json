@@ -5,8 +5,9 @@
     "outDir": "./dist", // Output compiled .js files to dist/
     
     // Environment Settings
-    "module": "nodenext", // For Node.js ES Modules
-    "moduleResolution": "nodenext", // Required for nodenext
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node", 
     "target": "es2020", // Compatible with modern Node.js
     "lib": ["es2020"], // Include ES2020 features
     "types": ["node"], // Include Node.js types
