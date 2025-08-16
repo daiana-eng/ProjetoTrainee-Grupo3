@@ -1,33 +1,34 @@
-// testUser.ts
-import userService from './src/domains/Users/services/UserServices.js';
-import prisma from './config/prismaClient.js';
+import express, { Application } from "express";
+import userRoutes from "./src/domains/Users/routes/userRoutes.js"; 
+import userMusicRoutes from "./src/domains/UserMusic/routes/UserMusicRoutes.js";
+import prisma from "./config/prismaClient.js";
 
-async function main() {
-  // Teste CREATE
-  await userService.create({
-    email: 'teste@exemplo.com',
-    password: '123456',
-    name: 'Usuário Teste',
-    photo: 'foto.jpg',
-    premium_id: 1
-  });
-  console.log('Usuário criado!');
+const app: Application = express();
+const PORT = process.env.PORT || 3000;
 
-  // Teste UPDATE
-  await userService.update('teste@exemplo.com', '123456', {
-    name: 'Nome Atualizado',
-    photo: 'nova_foto.jpg',
-    newPassword: 'novaSenha123'
-  });
-  console.log('Usuário atualizado!');
+app.use(express.json());
 
-  // Teste DELETE
-  await userService.delete('teste@exemplo.com', 'novaSenha123');
-  console.log('Usuário deletado!');
-}
+// Rotas
+app.use("/users", userRoutes);
+app.use("/user-music", userMusicRoutes);
 
-await prisma.premium.create({
-  data: { name: 'Premium Teste' }
+// Rota inicial
+app.get("/", (_req, res) => {
+  res.send("API rodando!");
 });
 
-main().catch(console.error);
+// Inicializa o servidor
+app.listen(PORT, async () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+
+  // Cria Premium Teste se não existir
+  try {
+    const existing = await prisma.premium.findFirst({ where: { name: "Premium Teste" } });
+    if (!existing) {
+      await prisma.premium.create({ data: { name: "Premium Teste" } });
+      console.log("Premium Teste criado no banco!");
+    }
+  } catch (err) {
+    console.error("Erro ao criar Premium Teste:", err);
+  }
+});

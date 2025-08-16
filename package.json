@@ -20,13 +20,18 @@
   },
   "homepage": "https://github.com/daiana-eng/ProjetoTrainee-Grupo3#readme",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "eslint": "^8.56.0",
     "prisma": "^6.13.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
+    "express": "^5.1.0",
     "node": "^22.18.0"
   }
 }
