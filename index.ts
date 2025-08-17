@@ -1,6 +1,8 @@
-// testUser.ts
-import userService from './src/domains/Users/services/UserServices.js';
-import prisma from './config/prismaClient.js';
+import {app} from "./config/expressConfig,";
+import dotenv from "dotenv";
+import userService from './src/domains/Users/services/UserServices';
+
+dotenv.config();
 
 async function main() {
   // Teste CREATE
@@ -12,22 +14,10 @@ async function main() {
     premium_id: 1
   });
   console.log('Usuário criado!');
-
-  // Teste UPDATE
-  await userService.update('teste@exemplo.com', '123456', {
-    name: 'Nome Atualizado',
-    photo: 'nova_foto.jpg',
-    newPassword: 'novaSenha123'
-  });
-  console.log('Usuário atualizado!');
-
-  // Teste DELETE
-  await userService.delete('teste@exemplo.com', 'novaSenha123');
-  console.log('Usuário deletado!');
-}
-
-await prisma.premium.create({
-  data: { name: 'Premium Teste' }
-});
+}  
 
 main().catch(console.error);
+
+app.listen(process.env.PORT, () => { 
+    console.log(`Servidor em execução na porta ${process.env.PORT}`);
+});
